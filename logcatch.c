@@ -36,13 +36,14 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdnoreturn.h>
 #include <unistd.h>
 
 int tflag;
 int sflag;
 char *uflag;
 
-static void
+noreturn static void
 fatal(const char *msg)
 {
 	perror(msg);
