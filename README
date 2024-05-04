@@ -1,0 +1,48 @@
+LOGCATCH(1)                 General Commands Manual                LOGCATCH(1)
+
+NAME
+     logcatch – run a process with private /dev/log
+
+SYNOPSIS
+     logcatch [-s] [-t fd | -u path] [command ...]
+
+DESCRIPTION
+     logcatch spawns command in a mount namespace with a private /dev/log,
+     thus its syslog(3) messages are not sent to the global syslog instance.
+
+     The options are as follows:
+
+     -s        Strip the syslog prefix from the message lines (with -t).
+
+     -t fd     Print syslog messages to the file descriptor fd.  This spawns a
+               child process of command that exits when its parent dies.
+
+     -u path   Connect /dev/log to the Unix domain socket found at path.
+
+EXIT STATUS
+     logcatch fails with a non-zero status code or successfully executes into
+     command.
+
+CAVEATS
+     logcatch requires special permissions to run, either root or the Linux
+     CAP_SYS_ADMIN capability.  The capability is dropped upon starting
+     command.
+
+     logcatch only works on Linux kernels with mount namespaces enabled, see
+     mount_namespaces(7).
+
+SEE ALSO
+     logger(1), syslog(3), socklog(8), syslogd(8)
+
+AUTHORS
+     Leah Neukirchen <leah@vuxu.org>
+
+LICENSE
+     logcatch is in the public domain.
+
+     To the extent possible under law, the creator of this work has waived all
+     copyright and related or neighboring rights to this work.
+
+     https://creativecommons.org/publicdomain/zero/1.0/
+
+Void Linux                        May 5, 2024                       Void Linux

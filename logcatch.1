@@ -1,0 +1,72 @@
+.Dd May 5, 2024
+.Dt LOGCATCH 1
+.Os
+.Sh NAME
+.Nm logcatch
+.Nd run a process with private /dev/log
+.Sh SYNOPSIS
+.Nm
+.Op Fl s
+.Op Fl t Ar fd | Fl u Ar path
+.Op Ar command\ ...
+.Sh DESCRIPTION
+.Nm
+spawns
+.Ar command
+in a mount namespace with a private
+.Pa /dev/log ,
+thus its
+.Xr syslog 3
+messages are not sent to the global syslog instance.
+.Pp
+The options are as follows:
+.Bl -tag -width 8n
+.It Fl s
+Strip the syslog prefix from the message lines
+(with
+.Fl t ) .
+.It Fl t Ar fd
+Print syslog messages to the file descriptor
+.Ar fd .
+This spawns a child process of
+.Ar command
+that exits when its parent dies.
+.It Fl u Ar path
+Connect
+.Pa /dev/log
+to the Unix domain socket found at
+.Ar path .
+.El
+.Sh EXIT STATUS
+.Nm
+fails with a non-zero status code or successfully executes into
+.Ar command .
+.Sh CAVEATS
+.Nm
+requires special permissions to run, either root or the Linux
+.Li "CAP_SYS_ADMIN"
+capability.
+The capability is dropped upon starting
+.Ar command .
+.Pp
+.Nm
+only works on Linux kernels with mount namespaces enabled,
+see
+.Xr mount_namespaces 7 .
+.Sh SEE ALSO
+.Xr logger 1 ,
+.Xr syslog 3 ,
+.Xr socklog 8 ,
+.Xr syslogd 8
+.Sh AUTHORS
+.An Leah Neukirchen Aq Mt leah@vuxu.org
+.Sh LICENSE
+.Nm
+is in the public domain.
+.Pp
+To the extent possible under law,
+the creator of this work
+has waived all copyright and related or
+neighboring rights to this work.
+.Pp
+.Lk https://creativecommons.org/publicdomain/zero/1.0/
