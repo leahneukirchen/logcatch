@@ -137,7 +137,7 @@ int
 main(int argc, char *argv[])
 {
 	int c;
-	while ((c = getopt(argc, argv, "st:u:")) != -1)
+	while ((c = getopt(argc, argv, "+st:u:")) != -1)
 		switch (c) {
 		case 's': sflag = 1; break;
 		case 't': tflag = atoi(optarg); break;
