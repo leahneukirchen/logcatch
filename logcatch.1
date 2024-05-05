@@ -28,11 +28,8 @@ Strip the syslog prefix from the message lines
 .It Fl t Ar fd
 Print syslog messages to the file descriptor
 .Ar fd .
-This spawns a child process of
-.Ar command
-that exits when its parent dies.
 .It Fl u Ar path
-Connect
+Map
 .Pa /dev/log
 to the Unix domain socket found at
 .Ar path .
@@ -53,6 +50,18 @@ The capability is dropped upon starting
 only works on Linux kernels with mount namespaces enabled,
 see
 .Xr mount_namespaces 7 .
+.Pp
+When using
+.Fl t ,
+a helper process is spawned that exits when
+.Ar command
+terminates;
+for any of its child processes that remain, logging stops working.
+If this can happen intentionally, you should consider using
+.Fl u
+instead and use a tool like
+.Xr socklog 8
+to do the logging.
 .Sh SEE ALSO
 .Xr logger 1 ,
 .Xr syslog 3 ,
